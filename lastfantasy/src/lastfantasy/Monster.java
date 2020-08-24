@@ -4,6 +4,8 @@ public class Monster implements Cloneable {
 
     private String Name;
     private int Hp;
+    private int Atk;
+    private static Monster instance;
 
     public String getName() {
         return Name;
@@ -16,8 +18,6 @@ public class Monster implements Cloneable {
     public int getAtk() {
         return Atk;
     }
-    private int Atk;
-    private static Monster instance;
 
 //    public Monster() {
 //
@@ -30,15 +30,15 @@ public class Monster implements Cloneable {
 //        return instance;
 //    }
 
-    public void setName(String Name) {
+    public void setName(final String Name) {
         this.Name = Name;
     }
 
-    public void setHp(int Hp) {
+    public void setHp(final int Hp) {
         this.Hp = Hp;
     }
 
-    public void setAtk(int Atk) {
+    public void setAtk(final int Atk) {
         this.Atk = Atk;
     }
 
