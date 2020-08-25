@@ -63,11 +63,12 @@ public class App {
     }
 
     public static int autoAttack(int Amount, Monster monster) {
-        CombatPool attack = new CombatPool();
+            CombatPool combat = createcombat();
             System.out.println(Character.getInstance().getName() + ":  Attack!!!");
             System.out.println("");
-            monster.setHp(attack.attackfirst(Character.getInstance().getAtk(), monster.getHp()));
-            Character.getInstance().setHp(attack.attacksecond(monster.getAtk(), Character.getInstance().getHp()));
+            monster.setHp(combat.attackfirst(Character.getInstance().getAtk(), monster.getHp()));
+            Character.getInstance().setHp(combat.attacksecond(monster.getAtk(), Character.getInstance().getHp()));
+            clean(combat);
             if (monster.getHp() == 0) {
                 System.out.println(monster.getName() + ":  Die!");
                 Amount -= 1;
@@ -77,5 +78,15 @@ public class App {
                 System.out.println("=== End Game ===");
         }
         return Amount;
+    }
+
+    public static void clean(CombatPool attack){
+        attack.attackfirst(0, 0);
+        attack.attacksecond(0, 0);
+    }
+
+    public static CombatPool createcombat(){
+        CombatPool combat = new CombatPool();
+        return combat;
     }
 }
