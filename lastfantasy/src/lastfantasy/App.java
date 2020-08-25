@@ -24,24 +24,34 @@ public class App {
             Monster M5 = (Monster)M1.clone();
             
             cardInterfece(M1, Amount);
+            Thread.sleep(2000);
             if(autoAttack(Amount,M1) < Amount){
                 Amount -= 1;
+                Thread.sleep(2000);
                 cardInterfece(M2, Amount);
+                Thread.sleep(2000);
             }
             if (autoAttack(Amount,M2) < Amount){
                 Amount -= 1;
+                Thread.sleep(2000);
                 cardInterfece(M3, Amount);
+                Thread.sleep(2000);
             }
             if (autoAttack(Amount,M3) < Amount){
                 Amount -= 1;
+                Thread.sleep(2000);
                 cardInterfece(M4, Amount);
+                Thread.sleep(2000);
             }
             if (autoAttack(Amount,M4) < Amount){
                 Amount -= 1;
+                Thread.sleep(2000);
                 cardInterfece(M5, Amount);
+                Thread.sleep(2000);
             }
             if (autoAttack(Amount,M5) < Amount){
                 Amount -= 1;
+                Thread.sleep(2000);
                 cardInterfece(M5, Amount);
             }
     }
@@ -66,8 +76,8 @@ public class App {
             CombatPool combat = createcombat();
             System.out.println(Character.getInstance().getName() + ":  Attack!!!");
             System.out.println("");
-            monster.setHp(combat.attackfirst(Character.getInstance().getAtk(), monster.getHp()));
-            Character.getInstance().setHp(combat.attacksecond(monster.getAtk(), Character.getInstance().getHp()));
+            monster.setHp(combat.attackFirst(Character.getInstance().getAtk(), monster.getHp()));
+            Character.getInstance().setHp(combat.attackSecond(monster.getAtk(), Character.getInstance().getHp()));
             clean(combat);
             if (monster.getHp() == 0) {
                 System.out.println(monster.getName() + ":  Die!");
@@ -81,8 +91,8 @@ public class App {
     }
 
     public static void clean(CombatPool attack){
-        attack.attackfirst(0, 0);
-        attack.attacksecond(0, 0);
+        attack.attackFirst(0, 0);
+        attack.attackSecond(0, 0);
     }
 
     public static CombatPool createcombat(){
