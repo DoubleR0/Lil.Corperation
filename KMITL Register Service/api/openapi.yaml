@@ -1,0 +1,1035 @@
+openapi: 3.0.0
+info:
+  title: KMITL Register API
+  version: 1.0.2
+servers:
+- url: https://KMITLreg.swaggerhub.com/Lil.Co/Course-service/1.0.0
+  description: Course service
+- url: https://KMITLreg.swaggerhub.com/Lil.Co/Student-service/1.0.0
+  description: Student service
+- url: https://KMITLreg.swaggerhub.com/Lil.Co/Lecturer-service/1.0.0
+  description: Lecturer service
+- url: https://KMITLreg.swaggerhub.com/Lil.Co/Finance-service/1.0.0
+  description: Finance service
+- url: https://KMITLreg.swaggerhub.com/Lil.Co/Evaluation-service/1.0.0
+  description: Evaluation service
+- url: https://KMITLreg.swaggerhub.com/Lil.Co/Grade-service/1.0.0
+  description: Grade service
+- url: https://KMITLreg.swaggerhub.com/Lil.Co/Form-KM-service/1.0.0
+  description: Form & KM service
+tags:
+- name: teachers clients
+  description: Operations for teachers clients
+- name: students clients
+  description: Operations for students clients
+- name: admins
+  description: manage secure by admin
+paths:
+  /Login:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      - admins
+      description: get all Profile
+      operationId: loginGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Profile'
+                x-content-type: application/json
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TeachersClients
+  /Register:
+    post:
+      tags:
+      - students clients
+      - teachers clients
+      summary: add course
+      operationId: registerPOST
+      requestBody:
+        description: add Profile
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Profile'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: StudentsClients
+  /CourseManagement:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      - admins
+      description: get all course
+      operationId: courseManagementGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TeachersClients
+  /Course-Management/{id}:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      - admins
+      description: get specific course using id
+      operationId: course_ManagementIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Course'
+        "400":
+          description: bad input parameter
+      x-swagger-router-controller: TeachersClients
+    post:
+      tags:
+      - admins
+      summary: add course
+      operationId: course_ManagementIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to search course
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: course to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+    delete:
+      tags:
+      - admins
+      summary: delete course
+      operationId: course_ManagementIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id to searches course
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admins
+    patch:
+      tags:
+      - admins
+      description: fdsf
+      operationId: course_ManagementIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id of Course to search
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: course to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: Admins
+  /CourseSchedule:
+    get:
+      tags:
+      - admins
+      description: get all schedule
+      operationId: courseScheduleGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Schedule'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+  /CourseSchedule/{id}:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      - admins
+      description: get specific schedule using id
+      operationId: courseScheduleIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: object
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Schedule'
+        "400":
+          description: bad input parameter
+      x-swagger-router-controller: TeachersClients
+    post:
+      tags:
+      - admins
+      summary: add schedule
+      operationId: courseScheduleIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to search schedule
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: schedule to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+    delete:
+      tags:
+      - admins
+      summary: delete schedule
+      operationId: courseScheduleIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id to searches schedule
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: object
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admins
+    patch:
+      tags:
+      - admins
+      description: update schedule
+      operationId: courseScheduleIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id of Schedule to search
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: schedule to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: Admins
+  /Finance:
+    get:
+      tags:
+      - admins
+      description: get all Finance
+      operationId: financeGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Finance'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+  /Finance/{id}:
+    get:
+      tags:
+      - students clients
+      - admins
+      description: get specific Finance using id
+      operationId: financeIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: object
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Finance'
+        "400":
+          description: bad input parameter
+      x-swagger-router-controller: StudentsClients
+    post:
+      tags:
+      - admins
+      - students clients
+      summary: add Finance
+      operationId: financeIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to search Finance
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Finance to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Finance'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+  /EventsAndActivities:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      - admins
+      description: get all EventsAndActivities
+      operationId: eventsAndActivitiesGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/EventsAndActivities'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TeachersClients
+  /EventsAndActivities/{id}:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      - admins
+      description: get EventsAndActivities using id
+      operationId: eventsAndActivitiesIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/EventsAndActivities'
+        "400":
+          description: bad input parameter
+      x-swagger-router-controller: TeachersClients
+    post:
+      tags:
+      - admins
+      summary: add EventsAndActivities
+      operationId: eventsAndActivitiesIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to search EventsAndActivities
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: EventsAndActivities to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventsAndActivities'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+    delete:
+      tags:
+      - admins
+      summary: delete EventsAndActivities
+      operationId: eventsAndActivitiesIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id to searches EventsAndActivities
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: object
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admins
+    patch:
+      tags:
+      - admins
+      description: update EventsAndActivities
+      operationId: eventsAndActivitiesIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id of EventsAndActivities to search
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: EventsAndActivities to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/EventsAndActivities'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: Admins
+  /Assess:
+    get:
+      tags:
+      - admins
+      - teachers clients
+      description: get all Assess
+      operationId: assessGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Assess'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+  /Assess/{id}:
+    get:
+      tags:
+      - teachers clients
+      - admins
+      description: get Assess using id
+      operationId: assessIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Assess'
+        "400":
+          description: bad input parameter
+      x-swagger-router-controller: TeachersClients
+    post:
+      tags:
+      - students clients
+      summary: add Assess
+      operationId: assessIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to search Assess
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Assess to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Assess'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: StudentsClients
+    delete:
+      tags:
+      - admins
+      summary: delete Assess
+      operationId: assessIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id to search Assess
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: object
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admins
+  /Evaluation/{id}:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      description: get Score using id
+      operationId: evaluationIdGET
+      parameters:
+      - name: id
+        in: path
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Score'
+        "400":
+          description: bad input parameter
+      x-swagger-router-controller: TeachersClients
+    post:
+      tags:
+      - teachers clients
+      summary: add Score
+      operationId: evaluationIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to search Score
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Score to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Score'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TeachersClients
+    delete:
+      tags:
+      - teachers clients
+      summary: delete Score
+      operationId: evaluationIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id to search Score
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: object
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: TeachersClients
+  /scheduleIntegration/{id}:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      - admins
+      description: get all scheduleIntegration
+      operationId: scheduleIntegrationIdGET
+      parameters:
+      - name: id
+        in: path
+        description: id to add ScheduleIntegration
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Schedule'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TeachersClients
+    post:
+      tags:
+      - admins
+      summary: add ScheduleIntegration
+      operationId: scheduleIntegrationIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to add ScheduleIntegration
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ScheduleIntegration to add
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Schedule'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admins
+    delete:
+      tags:
+      - admins
+      summary: delete ScheduleIntegration
+      operationId: scheduleIntegrationIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id to searches ScheduleIntegration
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admins
+  /courseonline/{id}:
+    get:
+      tags:
+      - teachers clients
+      - students clients
+      description: get Course
+      operationId: courseonlineIdGET
+      parameters:
+      - name: id
+        in: path
+        description: id to get Course
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/Course'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TeachersClients
+    post:
+      tags:
+      - teachers clients
+      - admins
+      summary: add Course
+      operationId: courseonlineIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: id to add courseonline
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: Course to add courseonline
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TeachersClients
+    delete:
+      tags:
+      - teachers clients
+      - admins
+      summary: delete courseonline
+      operationId: courseonlineIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: id to searches courseonline
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: TeachersClients
+    patch:
+      tags:
+      - teachers clients
+      - admins
+      description: update courseonline
+      operationId: courseonlineIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: id of courseonline to search
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: courseonline to be updated
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/Course'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: TeachersClients
+components:
+  schemas:
+    Course:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: IT-Y2-T1
+      example:
+        name: IT-Y2-T1
+        id: 0
+    Schedule:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        subject:
+          type: string
+      example:
+        subject: subject
+        id: 0
+    Assess:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        comments:
+          type: string
+          example: Teacher is so good at understanding student's problem.
+      example:
+        comments: Teacher is so good at understanding student's problem.
+        id: 0
+    Score:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        score:
+          type: string
+          example: A
+      example:
+        score: A
+        id: 0
+    Finance:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        amount:
+          type: number
+          example: 32000.0
+      example:
+        amount: 32000.0
+        id: 0
+    Profile:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+        name:
+          type: string
+          example: Non
+      example:
+        name: Non
+        id: 046b6c7f-0b8a-43b9-b35d-6489e6daee91
+    EventsAndActivities:
+      type: object
+      properties:
+        id:
+          type: integer
+          format: int64
+        name:
+          type: string
+          example: Kaesad
+      example:
+        name: Kaesad
+        id: 0

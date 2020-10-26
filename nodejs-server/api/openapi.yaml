@@ -1,0 +1,949 @@
+openapi: 3.0.0
+info:
+  title: Taxi API
+  version: "0.1"
+servers:
+- url: https://Payment.server/api
+  description: Payment services
+  variables:
+    port:
+      default: "443"
+- url: https://Tracking.server/api
+  description: Tracking services
+  variables:
+    port:
+      default: "443"
+- url: https://Vehicle.server/api
+  description: Vehicle services
+  variables:
+    port:
+      default: "443"
+- url: https://Messaging.server/api
+  description: Messaging services
+  variables:
+    port:
+      default: "443"
+- url: https://Location.server/api
+  description: Location services
+  variables:
+    port:
+      default: "443"
+- url: https://Customer.server/api
+  description: Customer services
+  variables:
+    port:
+      default: "443"
+- url: https://Feedback.server/api
+  description: Feedback services
+  variables:
+    port:
+      default: "443"
+- url: https://promotion.server/api
+  description: promotion services
+  variables:
+    port:
+      default: "443"
+- url: https://Driver.server/api
+  description: Driver services
+  variables:
+    port:
+      default: "443"
+tags:
+- name: taxi clients
+  description: Operations for taxi clients
+- name: customer clients
+  description: Operations for customer clients
+- name: admin
+  description: manage secure by admin
+paths:
+  /priceForecast/{id}:
+    post:
+      tags:
+      - admin
+      operationId: priceForecastIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: UUID to created price
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: priceItem to created price
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/priceItem'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admin
+    patch:
+      tags:
+      - admin
+      operationId: priceForecastIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: UUID to update price
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: priceItem to update price
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/priceItem'
+        required: true
+      responses:
+        "200":
+          description: item update
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: Admin
+  /priceForecast:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      operationId: priceForecastGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/priceItem'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+      x-swagger-router-controller: TaxiClients
+  /maintenance:
+    get:
+      tags:
+      - admin
+      operationId: maintenanceGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/logItem'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+      x-swagger-router-controller: Admin
+  /searching/{id}:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      operationId: searchingIdGET
+      parameters:
+      - name: id
+        in: path
+        description: UUID to searches taxi
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationItem'
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+      x-swagger-router-controller: TaxiClients
+  /rating/{id}:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      operationId: ratingIdGET
+      parameters:
+      - name: id
+        in: path
+        description: UUID to searches rating
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/RecommendationItem'
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+      x-swagger-router-controller: TaxiClients
+    post:
+      tags:
+      - customer clients
+      operationId: ratingIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: UUID to created rating
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: RecommendationItem to created rating
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendationItem'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: CustomerClients
+    patch:
+      tags:
+      - customer clients
+      operationId: ratingIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: UUID to update rating
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: RecommendationItem to update rating
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/RecommendationItem'
+        required: true
+      responses:
+        "200":
+          description: item update
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: CustomerClients
+  /emergency/{id}:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: find user profile
+      operationId: emergencyIdGET
+      parameters:
+      - name: id
+        in: path
+        description: UUID to searches profile
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: contract Emergency
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+      x-swagger-router-controller: TaxiClients
+  /profile/{id}:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: find user profile
+      operationId: profileIdGET
+      parameters:
+      - name: id
+        in: path
+        description: UUID to searches profile
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/ProfileItem'
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+      x-swagger-router-controller: TaxiClients
+    post:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: created user profile
+      operationId: profileIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: UUID to created profile
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ProfileItem to created user profile
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileItem'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TaxiClients
+    delete:
+      tags:
+      - admin
+      summary: delete user profile
+      operationId: profileIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: UUID to delete user profile
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admin
+    patch:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: update user profile
+      operationId: profileIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: UUID to update user profile
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: ProfileItem to save profile
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/ProfileItem'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: TaxiClients
+  /billing/{id}:
+    post:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: payment of user
+      operationId: billingIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: UUID to searches payment
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: PaymentItem to save payment
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/PaymentItem'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TaxiClients
+    delete:
+      tags:
+      - admin
+      summary: delete user payment
+      operationId: billingIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: UUID to delete user payment
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admin
+  /messages/{id}:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: find user history Messages
+      operationId: messagesIdGET
+      parameters:
+      - name: id
+        in: path
+        description: UUID to find user history Messages
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/HistorychatItem'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TaxiClients
+    post:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: created user Messages
+      operationId: messagesIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: UUID to created user Messages
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: HistorychatItem to save Messages
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistorychatItem'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TaxiClients
+    delete:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: delete user Messages
+      operationId: messagesIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: UUID to delete user Messages
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: TaxiClients
+    patch:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: update user Messages
+      operationId: messagesIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: UUID to update user Messages
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: HistorychatItem to save Messages
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/HistorychatItem'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: TaxiClients
+  /promotion:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: find all promotion
+      operationId: promotionGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/PromotionItem'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TaxiClients
+    delete:
+      tags:
+      - admin
+      summary: delete promotion
+      operationId: promotionDELETE
+      parameters:
+      - name: id
+        in: query
+        description: UUID to delete promotion
+        required: true
+        style: form
+        explode: true
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admin
+  /location:
+    get:
+      tags:
+      - customer clients
+      summary: find all taxi
+      operationId: locationGET
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/LocationItem'
+                x-content-type: application/json
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: CustomerClients
+    put:
+      tags:
+      - admin
+      summary: place user location
+      operationId: locationPUT
+      requestBody:
+        description: LocationItem to save location
+        content:
+          application/json:
+            schema:
+              type: array
+              items:
+                $ref: '#/components/schemas/LocationItem'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: Admin
+  /location/{id}:
+    get:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: find user location
+      operationId: locationIdGET
+      parameters:
+      - name: id
+        in: path
+        description: UUID to searches location
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: OK
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/LocationItem'
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TaxiClients
+    post:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: place user location
+      operationId: locationIdPOST
+      parameters:
+      - name: id
+        in: path
+        description: UUID to place user location
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: LocationItem to save location
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationItem'
+        required: true
+      responses:
+        "200":
+          description: item created
+        "400":
+          description: bad input parameter
+        "403":
+          description: you must to be login
+        "429":
+          description: now too many requests
+      x-swagger-router-controller: TaxiClients
+    delete:
+      tags:
+      - admin
+      summary: delete user location
+      operationId: locationIdDELETE
+      parameters:
+      - name: id
+        in: path
+        description: UUID to delete user location
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      responses:
+        "200":
+          description: item deleted
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+      x-swagger-router-controller: Admin
+    patch:
+      tags:
+      - taxi clients
+      - customer clients
+      summary: update user location
+      operationId: locationIdPATCH
+      parameters:
+      - name: id
+        in: path
+        description: UUID to update user location
+        required: true
+        style: simple
+        explode: false
+        schema:
+          type: string
+      requestBody:
+        description: LocationItem to save location
+        content:
+          application/json:
+            schema:
+              $ref: '#/components/schemas/LocationItem'
+        required: true
+      responses:
+        "200":
+          description: item updated
+        "400":
+          description: bad input parameter
+        "401":
+          description: unauthorized
+        "429":
+          description: now too many requests
+        "409":
+          description: an existing item already exists
+      x-swagger-router-controller: TaxiClients
+components:
+  schemas:
+    LocationItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: user#1023
+        releaseDate:
+          type: string
+          format: date-time
+          example: 2016-08-29T09:12:33.001Z
+        latitude:
+          type: integer
+        longitude:
+          type: integer
+      example:
+        releaseDate: 2016-08-29T09:12:33.001Z
+        latitude: 0
+        name: user#1023
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+        longitude: 6
+    ProfileItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: user#1023
+        age:
+          type: integer
+          example: 32
+      example:
+        name: user#1023
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+        age: 32
+    PaymentItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: user#1023
+        cost:
+          type: string
+          example: "152"
+    HistorychatItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: user#1023
+        line:
+          type: string
+          example: Hello i'm in 235/4 stree 49/1
+      example:
+        line: Hello i'm in 235/4 stree 49/1
+        name: user#1023
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+    PromotionItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: summer cars
+      example:
+        name: summer cars
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+    RecommendationItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: user#1023
+        line:
+          type: string
+          example: Good
+        star:
+          type: integer
+      example:
+        star: 0
+        line: Good
+        name: user#1023
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+    logItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        name:
+          type: string
+          example: error 505
+        line:
+          type: string
+          example: cannot use module
+        dateTime:
+          type: string
+          format: date-time
+          example: 2016-08-29T09:12:33.001Z
+      example:
+        dateTime: 2016-08-29T09:12:33.001Z
+        line: cannot use module
+        name: error 505
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+    priceItem:
+      type: object
+      properties:
+        id:
+          type: string
+          format: uuid
+          example: d290f1ee-6c54-4b01-90e6-d701748f0851
+        price:
+          type: integer
+          example: 204
+        time:
+          type: string
+          format: date-time
+      example:
+        price: 204
+        id: d290f1ee-6c54-4b01-90e6-d701748f0851
+        time: 2000-01-23T04:56:07.000+00:00
